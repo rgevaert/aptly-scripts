@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Script to initialize mirrors for aptly.
+# We need to pass release
+
+#    init-mirror
+#    Copyright (C) 2015 Rudy Gevaert <rudy.gevaert@ugent.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+release=""
+
+mirror_url="http://ftp.de.debian.org/debian/"
+arch="amd64,i386"
+components="main non-free contrib"
+
+while getopts ":r:m:a:c:" opt; do
+  case $opt in
+    r)
+      release=$OPTARG
+      ;;
+    m)
+      mirror_url=$OPTARG
+      ;;
+    a)
+      arch=$OPTARG
+      ;;
+    c)
+      components=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z "$release" ]
+then
+  echo 'Option -r requires an argument squeeze|wheezy|jessie.'
+  exit 1	
+fi
+
+for component in $components
+  do aptly mirror create -architectures=${arch} ${release}-${component} $mirror_url $release $component
+done
+aptly mirror create -architectures=${arch} ${release}-security http://security.debian.org/ ${release}/updates $components

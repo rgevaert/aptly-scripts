@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Script that mergens all dated snapshots into one
+
+#    merge-release-snapshot 
+#    Copyright (C) 2015 Rudy Gevaert <rudy.gevaert@ugent.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+if [ -z "$3" ]
+then
+  echo "Usage: $0 <release-name|mirror-name> <date> <basename> "
+  exit 1
+fi
+
+release=$1
+date=$2
+basename=$3
+snapshots=`aptly snapshot list -raw | egrep ^${release}-[[:alpha:]]+-${date}`
+
+merged_snapshot=${basename}-${release}-${date}
+if [ -z "$snapshots" ]
+then
+  echo No snapshots found!
+  exit 1
+else
+  aptly snapshot merge -latest $merged_snapshot $snapshots
+fi
