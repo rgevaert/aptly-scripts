@@ -32,4 +32,11 @@ subname=$4
 merged_snapshot=${basename}-${release}-${date}
 published_name=${basename}-${release}-${subname}
 
-aptly publish switch $release $published_name $merged_snapshot
+# Already published snapshots need to be switched,
+# first time publish use "aptly publish snapshot"
+if aptly publish list -raw | grep -q "$published_name $release"
+then
+  aptly publish switch $release $published_name $merged_snapshot
+else
+  aptly publish snapshot -distribution=$release $merged_snapshot $published_name
+fi
