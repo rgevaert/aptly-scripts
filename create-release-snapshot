@@ -29,7 +29,7 @@ fi
 mirrors=`aptly mirror list -raw | grep ^$1`
 if [ -z "$2" ]
 then
-  date=`date +%Y%m%d`
+  date=`date +%Y%m%d-%T`
 else
   date=$2
 fi
