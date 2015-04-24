@@ -22,11 +22,11 @@
 
 if [ -z "$1" ]
 then
-  echo "USage: $0 <release-name|mirror-name> [date]"
+  echo "Usage: $0 <release-name|mirror-name> [date]"
   exit 1
 fi
 
-mirrors=`aptly mirror list -raw | grep ^$1 | egrep "contrib|main|non\-free|security"`
+
 if [ -z "$2" ]
 then
   date=`date +%Y%m%d-%T`
@@ -34,7 +34,16 @@ else
   date=$2
 fi
 
-if [ -z "$mirror" ]
+case "$1" in
+  wheezy|jessie)
+    mirrors=`aptly mirror list -raw | grep ^$1 | egrep "contrib|main|non\-free|security"`
+    ;;
+  *)
+    mirrors=`aptly mirror list -raw | grep ^$1`
+    ;;
+esac
+
+if [ -z "$mirrors" ]
 then
   echo mirror list empty
   exit 1
