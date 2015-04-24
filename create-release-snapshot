@@ -34,6 +34,12 @@ else
   date=$2
 fi
 
+if [ -z "$mirror" ]
+then
+  echo mirror list empty
+  exit 1
+fi
+
 for mirror in $mirrors
 do
   aptly snapshot create ${mirror}-${date} from mirror $mirror
