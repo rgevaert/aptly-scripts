@@ -26,7 +26,7 @@ then
   exit 1
 fi
 
-mirrors=`aptly mirror list -raw | grep ^$1`
+mirrors=`aptly mirror list -raw | grep ^$1 | egrep "contrib|main|non\-free|security"`
 if [ -z "$2" ]
 then
   date=`date +%Y%m%d-%T`
