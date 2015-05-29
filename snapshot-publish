@@ -32,6 +32,12 @@ subname=$4
 merged_snapshot=${basename}-${release}-${date}
 published_name=${basename}-${release}-${subname}
 
+if aptly publish list | grep "${published_name}/${release}" | grep -q $merged_snapshot
+then
+  echo "We don't need to publish this same snapshot again"
+  exit 0
+fi
+
 # Already published snapshots need to be switched,
 # first time publish use "aptly publish snapshot"
 if aptly publish list -raw | grep -q "$published_name $release"
