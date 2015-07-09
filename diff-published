@@ -26,6 +26,6 @@ then
   exit 1
 fi
 
-SNAPSHOT_A=`aptly publish list | grep $1 | sed -e 's/.*\[\(.*\)\].*/\1/'`
-SNAPSHOT_B=`aptly publish list | grep $2 | sed -e 's/.*\[\(.*\)\].*/\1/'`
+SNAPSHOT_A=`aptly publish list | grep " $1" | sed -e 's/.*\[\(.*\)\].*/\1/'`
+SNAPSHOT_B=`aptly publish list | grep " $2" | sed -e 's/.*\[\(.*\)\].*/\1/'`
 aptly snapshot diff $SNAPSHOT_A $SNAPSHOT_B
