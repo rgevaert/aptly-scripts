@@ -28,7 +28,7 @@ fi
 release=$1
 date=$2
 basename=$3
-snapshots=`aptly snapshot list -raw | egrep ^${release}-[[:alpha:]]+-${date}`
+snapshots=`aptly snapshot list -raw | grep $date | egrep ^${release}`
 
 merged_snapshot=${basename}-${release}-${date}
 if [ -z "$snapshots" ]

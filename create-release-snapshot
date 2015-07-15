@@ -38,8 +38,8 @@ case "$1" in
   wheezy|jessie)
     mirrors=`aptly mirror list -raw | grep ^$1 | egrep "contrib|main|non\-free|security"`
     ;;
-  *)
-    mirrors=`aptly mirror list -raw | grep ^$1`
+  trusty)
+    mirrors=`aptly mirror list -raw | grep ^$1 | egrep "main|multiverse|restricted|universe"`
     ;;
 esac
 
