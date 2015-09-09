@@ -25,4 +25,7 @@ then
   exit 1
 fi
 
-aptly mirror list -raw | grep ^$1 | xargs -n 1 aptly mirror update
+for $mirror in `aptly mirror list -raw | grep ^$1`
+do
+  aptly mirror update $i
+done
