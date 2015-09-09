@@ -25,7 +25,7 @@ then
   exit 1
 fi
 
-for $mirror in `aptly mirror list -raw | grep ^$1`
+for mirror in `aptly mirror list -raw | grep ^$1`
 do
-  aptly mirror update $i
+  aptly mirror update $mirror
 done
