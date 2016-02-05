@@ -41,6 +41,9 @@ case "$1" in
   trusty)
     mirrors=`aptly mirror list -raw | grep ^$1 | egrep "main|multiverse|restricted|universe"`
     ;;
+  *)
+    mirrors=$1
+    ;;
 esac
 
 if [ -z "$mirrors" ]
