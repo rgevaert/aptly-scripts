@@ -38,7 +38,7 @@ case "$1" in
   wheezy|jessie)
     mirrors=`aptly mirror list -raw | grep ^$1 | egrep "contrib|main|non\-free|security"`
     ;;
-  trusty)
+  trusty|xenial)
     mirrors=`aptly mirror list -raw | grep ^$1 | egrep "main|multiverse|restricted|universe"`
     ;;
   *)
