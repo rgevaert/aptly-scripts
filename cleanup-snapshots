@@ -50,12 +50,10 @@ esac
 if [ -z "$snapshots" ]
 then
   echo snapshots list empty
-  exit 1
+else
+  for snapshot in $snapshots
+  do
+    aptly snapshot drop $snapshot
+  done
+  aptly db cleanup 
 fi
-
-for snapshot in $snapshots
-do
-  aptly snapshot drop $snapshot
-done
-
-aptly db cleanup 
