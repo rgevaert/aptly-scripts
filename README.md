@@ -46,3 +46,10 @@ Publish a merged snapshot.  Use the basename and date you gave in the previous c
 ```
 snapshot-publish  <release-name|mirror-name> <date> <basename> <latest|prd>
 ``` 
+
+## cleanup-snapshots
+
+Delete old snapshots and cleanup the db
+```
+cleanup-snapshots <release-name|mirror-name> <date>
+``` 

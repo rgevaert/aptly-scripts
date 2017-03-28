@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Script to clean up not used snapshots
+
+#    cleanup-snapshots
+#    Copyright (C) 2015 Rudy Gevaert <rudy.gevaert@ugent.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+if [ -z "$1" ]
+then
+  echo "Usage: $0 <release-name|snapshot-name> [date]"
+  echo "date is by default 7 days ago, to override use e.g. 20170323"
+  exit 1
+fi
+
+
+if [ -z "$2" ]
+then
+  date=$(date +%Y%m%d -d "`date`-7days")
+else
+  date=$2
+fi
+
+case "$1" in
+  wheezy|jessie)
+    snapshots=`aptly snapshot list -raw -sort time | grep "${1}" | egrep "all|contrib|main|non\-free|security" | grep $date | tac`
+    ;;
+  trusty|xenial)
+    snapshots=`aptly snapshot list -raw -sort time | grep "${1}" | egrep "all|main|multiverse|restricted|universe" | grep $date | tac`
+    ;;
+  *)
+    snapshots=$1
+    ;;
+esac
+
+if [ -z "$snapshots" ]
+then
+  echo snapshots list empty
+  exit 1
+fi
+
+for snapshot in $snapshots
+do
+  aptly snapshot drop $snapshot
+done
+
+aptly db cleanup 
