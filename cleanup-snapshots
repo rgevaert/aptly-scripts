@@ -30,7 +30,7 @@ fi
 
 if [ -z "$2" ]
 then
-  date=$(date +%Y%m%d -d "`date`-7days")
+  date=$(date +%Y%m%d -d "-7days")
 else
   date=$2
 fi
