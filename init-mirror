@@ -53,8 +53,8 @@ done
 
 if [ -z "$release" ]
 then
-  echo 'Option -r requires an argument squeeze|wheezy|jessie.'
-  exit 1	
+  echo 'Option -r requires an argument squeeze|wheezy|jessie|stretch.'
+  exit 1
 fi
 
 for component in $components

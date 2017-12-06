@@ -35,7 +35,7 @@ else
 fi
 
 case "$1" in
-  wheezy|jessie)
+  wheezy|jessie|stretch)
     mirrors=`aptly mirror list -raw | grep ^$1 | egrep "contrib|main|non\-free|security"`
     ;;
   trusty|xenial)

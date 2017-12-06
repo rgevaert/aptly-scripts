@@ -36,7 +36,7 @@ else
 fi
 
 case "$1" in
-  wheezy|jessie)
+  wheezy|jessie|stretch)
     snapshots=`aptly snapshot list -raw -sort time | grep "${1}" | egrep "all|contrib|main|non\-free|security" | grep $date | tac`
     ;;
   trusty|xenial)
